@@ -183,7 +183,8 @@ class @ChartList extends Backbone.Collection
         title: 'Loading'
         chart_id: 0
         holder_id: holder_id
-        header: options.header)
+        header: options.header,
+        popup: options.popup)
       $container.append new_chart
     holder_id
 
@@ -225,7 +226,7 @@ class @ChartList extends Backbone.Collection
         autoSize: false
         href: url
         type: 'ajax'
-        width: 1150
+        width: 930
         height: 700
         padding: 0
         afterShow: ->
@@ -264,7 +265,13 @@ class @ChartList extends Backbone.Collection
     #
     $(document).on 'touchend click', 'a.table_format, a.chart_format', (e) =>
       e.preventDefault()
-      holder_id = $(e.target).parents(".chart_holder").data('holder_id')
+
+      holder_target = if $(e.target).parents(".fancybox-inner").length > 0
+        $(e.target).parents(".fancybox-inner").find(".chart_holder")
+      else
+        $(e.target).parents(".chart_holder")
+
+      holder_id = $(holder_target).data('holder_id')
       @chart_in_holder(holder_id).toggle_format()
 
     # Restore the default chart

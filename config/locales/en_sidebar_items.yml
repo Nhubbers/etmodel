@@ -40,8 +40,8 @@ en:
       short_name: "Renewable electricity"
       long_name: "Renewable electricity"
     electricity_storage:
-      short_name: "Electricity storage"
-      long_name: "Storage and conversion of electricity"
+      short_name: "Flexibility options"
+      long_name: "Flexibility options"
     employment:
       short_name: "Employment"
       long_name: "Employment"
@@ -66,6 +66,9 @@ en:
     households:
       short_name: "Households"
       long_name: "Household energy demand"
+    hydrogen_production:
+      short_name: "Hydrogen production"
+      long_name: "Hydrogen production"
     industry:
       short_name: "Industry"
       long_name: "Industry energy demand"
@@ -111,6 +114,9 @@ en:
     transport:
       short_name: "Transportation"
       long_name: "Transport energy demand"
+    transport_costs:
+      short_name: "Transport"
+      long_name: "Transport"
     transport_fuels:
       short_name: "Transport fuels"
       long_name: "Transport Fuels"

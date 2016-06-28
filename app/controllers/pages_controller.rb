@@ -2,7 +2,7 @@ class PagesController < ApplicationController
   include ApplicationHelper
   before_filter :ensure_valid_browser, :except => [:browser_support]
   layout 'static_page', :only => [:about, :units, :browser_support, :bugs,
-    :disclaimer, :privacy_statement, :quality]
+    :disclaimer, :privacy_statement, :quality, :dataset]
 
   def root
     if request.post?
@@ -14,6 +14,12 @@ class PagesController < ApplicationController
 
   def scaled
     setup_countries_and_regions
+  end
+
+  def dataset
+    unless @area = Api::Area.find_by_country_memoized(params[:dataset_locale])
+      fail ActiveRecord::RecordNotFound
+    end
   end
 
   def choose
@@ -51,7 +57,6 @@ protected
   end
 
   def assign_settings_and_redirect
-    session[:dashboard] = nil
     Current.setting = Setting.default
     Current.setting.end_year = (params[:end_year] == "other") ? params[:other_year] : params[:end_year]
     Current.setting.area_code = params[:area_code]

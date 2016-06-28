@@ -3,6 +3,7 @@ nl:
   es: "Spanje"
   fr: "Frankrijk"
   nl: "Nederland"
+  nl2012: "Nederland 2012"
   pl: "Polen"
   ro: "Roemeni&euml"
   tr: "Turkije"
@@ -27,7 +28,7 @@ nl:
   municipalities: "gemeenten"
   provinces: "provincies"
   be-vlg: "Vlaanderen"
-  br: "Brazilië"
+  br: "Brazilië (door Thais en Lucas)"
   eu: "EU-27"
   new: "Nieuw"
   country_select:

@@ -15,11 +15,17 @@ class @D3ChartView extends BaseChartView
 
   render: (force_redraw) =>
     return false unless @model.supported_by_current_browser()
+
     if force_redraw || !@drawn
       @clear_container()
       @container_node().html(@html())
       @draw()
       @drawn = true
+
+    if @model.get('requires_merit_order')
+      @check_merit_enabled()
+      @drawn = App.settings.merit_order_enabled()
+
     @refresh()
 
   html: =>
@@ -80,10 +86,11 @@ class @D3ChartView extends BaseChartView
   # - vertical_offset: equivalent to top margin (default: 0)
   #
   draw_legend: (opts = {}) =>
-    opts.columns = opts.columns || 1
-    opts.left_margin = opts.left_margin || 10
+    opts.columns         = opts.columns || 1
+    opts.left_margin     = opts.left_margin || 10
     opts.vertical_offset = opts.vertical_offset || 0
-    legend_margin = opts.width / opts.columns
+    legend_margin        = opts.width / opts.columns
+
     legend = opts.svg.append('svg:g')
       .attr("transform", "translate(#{opts.left_margin},#{opts.vertical_offset})")
       .selectAll("svg.legend")

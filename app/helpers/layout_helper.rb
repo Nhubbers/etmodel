@@ -9,8 +9,8 @@ module LayoutHelper
   end
 
   def country_option(code, opts = {})
-    current = Current.setting.area_code == code
-    selected = current ? "selected='true'" : nil
+    selector = params[:country] || Current.setting.area_code
+    selected = selector == code ? "selected='true'" : nil
 
     label = I18n.t("country_select.#{ code }", default: I18n.t(code))
     label += " (#{ I18n.t('new') })" if opts[:test]
@@ -20,15 +20,15 @@ module LayoutHelper
   end
 
   def area_links
-    [ area_choice('br'),
-      area_choice('fr'),
+    [ area_choice('fr'),
       area_choice('de'),
       area_choice('nl'),
       area_choice('pl'),
       area_choice('es'),
       area_choice('uk'),
       :separator,
-      area_choice('eu')
+      area_choice('eu'),
+      area_choice('br')
     ].compact
   end
 

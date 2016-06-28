@@ -45,8 +45,13 @@
     position: relative
     .chart_canvas
       // zoomed charts and dashboard popups redefine the height
-      height: 350px
+      min-height: 350px
       background-color: #fff
+
+      select.d3-chart-date-select
+        float: right
+        margin-top: 10px
+
     .table_canvas
       // free to expand as needed
       background-color: #fff
@@ -64,6 +69,21 @@
     // overlap charts under them
     .jqplot-target
       margin-bottom: 100px
+
+// ======== Wells ============================================================
+
+.chart_canvas
+  .well
+    margin-top: 10px
+
+.well
+  margin-top: 0
+  padding: 3px 40px 15px
+  background-color: #F0F0F0
+  text-align: center
+
+  h4
+    font-size: 15px
 
 // ======== Tables ===========================================================
 
@@ -170,6 +190,9 @@ table
           float: left
           display: block
 
+  &#flexibility
+    margin-bottom: 10px
+
 // =========  D3 charts ======================================================
 
 div.d3_container
@@ -195,9 +218,12 @@ div.d3_container
       stroke-width: 0.5
       stroke: #000
       opacity: 0.15
-  g.legend
-    text
-      font-size: 12px
+  g.legend text
+    font-size: 12px
+
+.fancybox-inner div.d3_container
+  g.legend text
+    font-size: 15px
 
 // -------- generic charts  --------------------------------------------------
 
@@ -290,7 +316,7 @@ div.d3_container
 
 #select_charts
   height: 100%
-  h1
+  h1, > h2
     clear: both
     font-size: 18px
     padding-left: 10px
@@ -298,7 +324,13 @@ div.d3_container
     color: #224368
     padding: 10px
     margin-top: 0
+  > h2
+    font-size: 13px
+    padding: 5px 10px
+    margin-top: -12px
+    background-color: #F2FAFF
   div
+    cursor: pointer
     padding: 5px
     float: left
     width: 280px

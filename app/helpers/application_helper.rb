@@ -79,7 +79,7 @@ module ApplicationHelper
     links.push text: t("header.disclaimer") ,         url: "http://#{ "beta." if is_beta? }#{ domain }/terms?locale=#{ I18n.locale }", target: "_new"
     links.push text: t("header.bugs") ,               url: "http://#{ "beta." if is_beta? }#{ domain }/known_issues?locale=#{ I18n.locale }", target: "_new"
     unless APP_CONFIG[:standalone]
-      links.push text: t("header.documentation") ,                       url: "https://github.com/quintel/documentation", target: "_blank"
+      links.push text: t("header.documentation") ,    url: "https://github.com/quintel/documentation", target: "_blank"
       links.push text: t("header.publications") ,     url: "http://refman.et-model.com", target: "_blank"
       links.push text: t("header.feedback") ,         url: feedback_path, class: "fancybox"
     end
@@ -92,4 +92,22 @@ module ApplicationHelper
     false
   end
 
+  # Returns a hash of values which may be interpolated into description texts.
+  def formatted_description_values
+    @description_values ||= {
+      etengine_url: APP_CONFIG[:api_url].to_s.chomp('/'),
+      scenario_id:  Current.setting.api_session_id,
+      area_code:    Current.setting.area_code,
+      end_year:     Current.setting.end_year
+    }.freeze
+  end
+
+  def format_description(text)
+    if text
+      values = formatted_description_values
+      text.to_s.gsub(/%\{(\w+)\}/) { |token| values[token[2..-2].to_sym] }
+    else
+      text
+    end
+  end
 end

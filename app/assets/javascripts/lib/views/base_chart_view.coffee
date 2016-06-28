@@ -32,6 +32,12 @@ class @BaseChartView extends Backbone.View
     else
       @render()
 
+  check_merit_enabled: =>
+    unless App.settings.merit_order_enabled()
+      @container_node().html(
+        $('<div>').html(I18n.t('wells.warning.merit')).addClass('well')
+      )
+
   # the chart_canvas class has a predefined height, while the table_canvas
   # expands to fit content
   setup_holder_class: =>
@@ -64,12 +70,19 @@ class @BaseChartView extends Backbone.View
     @$el.find('a.chart_info').toggle(@model.get('has_description'))
     @$el.find(".actions a.chart_info").attr "href", "/descriptions/charts/#{id}"
     @$el.find(".actions a.zoom_chart").attr "href", "/output_elements/#{id}/zoom"
-    @$el.find("a.chart_format, a.table_format").hide()
+
+    @format_wrapper = if @$el.parents(".fancybox-inner").length > 0
+      @$el.parents(".fancybox-inner")
+    else
+      @$el
+
+    @format_wrapper.find("a.chart_format, a.table_format").hide()
     if @model.can_be_shown_as_table()
       if @model.get 'as_table'
-        @$el.find("a.chart_format").show()
+        @format_wrapper.find("a.chart_format").show()
       else
-        @$el.find("a.table_format").show()
+        @format_wrapper.find("a.table_format").show()
+
     @$el.find(".chart_not_finished").toggle @model.get("under_construction")
     @$el.find("a.default_chart").toggle @model.wants_default_button()
     @update_lock_icon()
@@ -85,8 +98,8 @@ class @BaseChartView extends Backbone.View
   toggle_format: =>
     tbl = @model.get 'as_table'
     @render_as_needed()
-    @$el.find("a.table_format").toggle(!tbl)
-    @$el.find("a.chart_format").toggle(tbl)
+    @format_wrapper.find("a.table_format").toggle(!tbl)
+    @format_wrapper.find("a.chart_format").toggle(tbl)
 
   hide_format_toggler: => $("a.toggle_chart_format").hide()
 
@@ -96,7 +109,7 @@ class @BaseChartView extends Backbone.View
     if Quantity.isSupported(unit)
       Quantity.scaleAndFormatBy(max_value, unit, opts)
     else
-      (value) -> Metric.autoscale_value(value, unit, opts.precision)
+      (value) -> Metric.autoscale_value(value, unit, opts.precision, opts.scaledown)
 
   # Internal: Returns a function which will format values for the "main" axis
   # of the chart.

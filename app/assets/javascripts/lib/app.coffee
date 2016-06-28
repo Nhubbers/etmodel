@@ -49,6 +49,10 @@ class @AppView extends Backbone.View
         @setup_checkboxes()
       .fail @handle_ajax_error
 
+    # Create flexibility order.
+    if (sortable = $('#accordion_wrapper ul.sortable')).length
+      new FlexibilityOrder(sortable[0]).render()
+
   # Returns a deferred object on which the .done() method can be called
   #
   user_values: =>
@@ -166,6 +170,7 @@ class @AppView extends Backbone.View
     $(".chart_holder[data-block_ui_on_refresh=true]:visible").busyBox
       spinner: "<em>Loading</em>"
     $("#dashboard .loading").show()
+    $(".arrow").css("opacity", "0.0")
 
   hideLoading: ->
     $(".chart_holder").busyBox('close')
@@ -185,4 +190,5 @@ class @AppView extends Backbone.View
   # TODO: Move this interface methods to a separate Interface class
   #
   update_merit_order_checkbox: =>
+    $(".merit-data-downloads").toggle(@settings.merit_order_enabled())
     $("#settings_use_merit_order").attr('checked', @settings.merit_order_enabled())
